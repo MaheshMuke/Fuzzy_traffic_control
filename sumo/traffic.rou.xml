@@ -1,18 +1,21 @@
 <routes>
 
+    <!-- Standard car -->
     <vType id="car"
            accel="2.6"
            decel="4.5"
            length="5"
            maxSpeed="13.9"/>
 
+    <!-- Emergency vehicle (ambulance / fire / police) -->
     <vType id="emergency"
-       accel="3.0"
-       decel="5.0"
-       length="5"
-       maxSpeed="15.0"
-       color="1,0,0"/>
+           accel="3.0"
+           decel="5.0"
+           length="5"
+           maxSpeed="15.0"
+           color="1,0,0"/>
 
+    <!-- Routes -->
     <route id="leftRight"
            edges="left0A0 A0A1 A1B1 B1right1"/>
 
@@ -25,7 +28,41 @@
     <route id="topBottom"
            edges="top1B1 B1B0 B0A0 A0bottom0"/>
 
-    <flow id="trafficLR" type="car" route="leftRight" begin="0" end="600" number="60"/>
-    <flow id="trafficRL" type="car" route="rightLeft" begin="0" end="600" number="60"/>
-    <flow id="trafficBT" type="car" route="bottomTop" begin="0" end="600" number="60"/>
-    <flow id="trafficTB" type="car" route="topBottom" begin="0" end="600" number="60"/></routes>
+    <!-- Time-varying flows derived from real traffic dataset -->
+    <!-- Each window corresponds to a real traffic period:    -->
+    <!--   light = night / off-peak                           -->
+    <!--   moderate = regular daytime                         -->
+    <!--   heavy = morning / evening rush hour                -->
+
+    <!-- Window 0s - 100s -->
+    <flow id="flow_0" type="car" route="leftRight" begin="0" end="100" number="14"/>
+    <flow id="flow_1" type="car" route="rightLeft" begin="0" end="100" number="14"/>
+    <flow id="flow_2" type="car" route="bottomTop" begin="0" end="100" number="12"/>
+    <flow id="flow_3" type="car" route="topBottom" begin="0" end="100" number="12"/>
+
+    <!-- Window 100s - 250s -->
+    <flow id="flow_4" type="car" route="leftRight" begin="100" end="250" number="16"/>
+    <flow id="flow_5" type="car" route="rightLeft" begin="100" end="250" number="16"/>
+    <flow id="flow_6" type="car" route="bottomTop" begin="100" end="250" number="14"/>
+    <flow id="flow_7" type="car" route="topBottom" begin="100" end="250" number="14"/>
+
+    <!-- Window 250s - 400s -->
+    <flow id="flow_8" type="car" route="leftRight" begin="250" end="400" number="5"/>
+    <flow id="flow_9" type="car" route="rightLeft" begin="250" end="400" number="5"/>
+    <flow id="flow_10" type="car" route="bottomTop" begin="250" end="400" number="4"/>
+    <flow id="flow_11" type="car" route="topBottom" begin="250" end="400" number="4"/>
+    <vehicle id="emergency1" type="emergency" route="leftRight" depart="325"/>
+
+    <!-- Window 400s - 520s -->
+    <flow id="flow_12" type="car" route="leftRight" begin="400" end="520" number="13"/>
+    <flow id="flow_13" type="car" route="rightLeft" begin="400" end="520" number="13"/>
+    <flow id="flow_14" type="car" route="bottomTop" begin="400" end="520" number="11"/>
+    <flow id="flow_15" type="car" route="topBottom" begin="400" end="520" number="11"/>
+
+    <!-- Window 520s - 600s -->
+    <flow id="flow_16" type="car" route="leftRight" begin="520" end="600" number="11"/>
+    <flow id="flow_17" type="car" route="rightLeft" begin="520" end="600" number="11"/>
+    <flow id="flow_18" type="car" route="bottomTop" begin="520" end="600" number="9"/>
+    <flow id="flow_19" type="car" route="topBottom" begin="520" end="600" number="9"/>
+
+</routes>

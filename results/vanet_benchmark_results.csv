@@ -1,0 +1,4 @@
+Controller,Fitness,Mean_Time_Loss_s,Mean_Stops,Throughput,Mean_Queue_veh,Max_Queue_veh,Emergency_Time_s
+Baseline Fuzzy,478.8924,234.6792,3.1461,219,27.7095,53,999.0
+Old PSO (Synthetic),270.3576,169.5650,2.4749,219,23.0855,52,729.0
+New PSO (Real VANET),29.8994,56.3687,1.7352,219,2.1066,10,101.0

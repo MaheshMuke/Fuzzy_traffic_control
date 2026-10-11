@@ -1,0 +1,28 @@
+<routes>
+    <vType id="car" accel="2.6" decel="4.5" length="5" maxSpeed="13.9"/>
+    <vType id="emergency" accel="3.0" decel="5.0" length="5" maxSpeed="15.0" color="1,0,0"/>
+
+    <route id="leftRight" edges="left0A0 A0A1 A1B1 B1right1"/>
+    <route id="rightLeft" edges="right1B1 B1A1 A1A0 A0left0"/>
+    <route id="bottomTop" edges="bottom0A0 A0B0 B0B1 B1top1"/>
+    <route id="topBottom" edges="top1B1 B1B0 B0A0 A0bottom0"/>
+
+    <!-- 0 - 150s: Warmup (NS heavier) -->
+    <flow id="ns_0" type="car" route="leftRight" begin="0" end="150" number="8"/>
+    <flow id="ns_1" type="car" route="rightLeft" begin="0" end="150" number="8"/>
+    <flow id="ns_2" type="car" route="bottomTop" begin="0" end="150" number="22"/>
+    <flow id="ns_3" type="car" route="topBottom" begin="0" end="150" number="22"/>
+
+    <!-- 150 - 380s: Peak Tidal Surge on NS Corridor -->
+    <flow id="ns_4" type="car" route="leftRight" begin="150" end="380" number="12"/>
+    <flow id="ns_5" type="car" route="rightLeft" begin="150" end="380" number="12"/>
+    <flow id="ns_6" type="car" route="bottomTop" begin="150" end="380" number="36"/>
+    <flow id="ns_7" type="car" route="topBottom" begin="150" end="380" number="34"/>
+    <vehicle id="emergency1" type="emergency" route="bottomTop" depart="280"/>
+
+    <!-- 380 - 600s: Recovery & Moderate NS -->
+    <flow id="ns_8" type="car" route="leftRight" begin="380" end="600" number="14"/>
+    <flow id="ns_9" type="car" route="rightLeft" begin="380" end="600" number="14"/>
+    <flow id="ns_10" type="car" route="bottomTop" begin="380" end="600" number="26"/>
+    <flow id="ns_11" type="car" route="topBottom" begin="380" end="600" number="26"/>
+</routes>

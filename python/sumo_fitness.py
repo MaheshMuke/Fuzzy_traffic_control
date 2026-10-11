@@ -411,6 +411,7 @@
 
 
 
+import os
 import traci
 
 from fuzzy_parameterized import create_fuzzy_controller
@@ -422,8 +423,12 @@ from fuzzy_parameterized import create_fuzzy_controller
 
 SUMO_BINARY = "sumo"
 
-NETWORK_FILE = r"C:\FuzzyPSO\sumo\intersection.net.xml"
-ROUTE_FILE = r"C:\FuzzyPSO\sumo\traffic.rou.xml"
+_PROJECT_ROOT = os.path.normpath(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+)
+
+NETWORK_FILE = os.path.join(_PROJECT_ROOT, "sumo", "intersection.net.xml")
+ROUTE_FILE   = os.path.join(_PROJECT_ROOT, "sumo", "traffic.rou.xml")
 
 TLS_ID = "A0"
 
@@ -841,16 +846,37 @@ def evaluate_parameters(parameters):
 
 
         # ==========================================
-        # CURRENT FITNESS FUNCTION
+        # IMPROVED FITNESS FUNCTION  (4 terms)
         # ==========================================
+        # Previously only 2 terms were used even though
+        # mean_queue and emergency_response_time were
+        # already being measured.  All 4 are now included.
 
-        alpha = 0.8
+        ALPHA = 0.50   # mean time loss per vehicle (primary)
+        BETA  = 0.15   # mean stops per vehicle
+        GAMMA = 0.20   # mean queue length
+        DELTA = 0.15   # emergency vehicle response penalty
 
-        beta = 0.2
+        # Emergency penalty: normalise response time against
+        # an ideal baseline of 90 seconds free travel.
+        EMERGENCY_BASELINE = 90.0
+
+        if (
+            emergency_response_time is not None
+            and emergency_response_time > 0
+        ):
+            emergency_penalty = max(
+                0.0,
+                emergency_response_time - EMERGENCY_BASELINE
+            ) / EMERGENCY_BASELINE
+        else:
+            emergency_penalty = 0.0
 
         fitness = (
-            alpha * mean_time_loss
-            + beta * mean_stops
+            ALPHA * mean_time_loss
+            + BETA  * mean_stops
+            + GAMMA * mean_queue
+            + DELTA * emergency_penalty * mean_time_loss
         )
 
 

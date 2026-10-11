@@ -1,150 +1,103 @@
 from sumo_fitness import evaluate_parameters
 
-
 # ==========================================
-# BASELINE PARAMETERS
+# 1. BASELINE PARAMETERS
 # ==========================================
-
 baseline_parameters = [
-    0, 5,
-    15, 5,
-    30, 5,
-    0, 2,
-    5, 2,
-    10, 2
+    0, 5,       # Queue: low (centre, width)
+    15, 5,      # Queue: medium
+    30, 5,      # Queue: high
+    0, 2,       # Arrival: low
+    5, 2,       # Arrival: medium
+    10, 2       # Arrival: high
 ]
 
-
 # ==========================================
-# PSO PARAMETERS - HEAVY TRAFFIC
+# 2. OLD PSO PARAMETERS (Synthetic uniform traffic)
 # ==========================================
-
-pso_parameters = [
+old_pso_parameters = [
     9.8354, 2.9543,
-    17.78, 8,
+    17.7800, 8.0000,
     22.3155, 7.6659,
-    1.6186, 0.5,
-    4.2632, 0.5,
-    7.165, 4
+    1.6186, 0.5000,
+    4.2632, 0.5000,
+    7.1650, 4.0000
 ]
 
-
 # ==========================================
-# BASELINE
+# 3. NEW PSO PARAMETERS (Real Kaggle VANET dataset)
 # ==========================================
+new_pso_parameters = [
+    10.0000, 4.8843,
+    22.0119, 4.6249,
+    22.4976, 1.0000,
+    1.4879, 4.0000,
+    6.7085, 3.2259,
+    7.3769, 0.5283
+]
 
-print("\n==============================")
-print("BASELINE CONTROLLER")
-print("==============================")
+def run_evaluation(name, params):
+    print(f"\nEvaluating {name}...")
+    fitness, delay, stops, throughput, mean_queue, max_queue, em_time = evaluate_parameters(params)
+    return {
+        "name": name,
+        "fitness": fitness,
+        "delay": delay,
+        "stops": stops,
+        "throughput": throughput,
+        "mean_queue": mean_queue,
+        "max_queue": max_queue,
+        "emergency_time": em_time
+    }
 
-(
-    baseline_fitness,
-    baseline_delay,
-    baseline_stops,
-    baseline_throughput,
-    baseline_mean_queue,
-    baseline_max_queue,
-    baseline_emergency_time
-) = evaluate_parameters(baseline_parameters)
+def print_summary_table(results):
+    base = results[0]
+    old = results[1]
+    new = results[2]
 
+    header = f"{'Metric':<25} | {'Baseline':<12} | {'Old PSO (Synth)':<16} | {'New PSO (VANET)':<16} | {'New vs Base (%)':<16} | {'New vs Old (%)':<16}"
+    sep = "-" * len(header)
+    print("\n" + sep)
+    print("                 TRAFFIC SIGNAL CONTROLLER PERFORMANCE COMPARISON")
+    print(sep)
+    print(header)
+    print(sep)
 
-print("Fitness:", round(baseline_fitness, 4))
-print("Mean time loss:", round(baseline_delay, 4))
-print("Mean stops:", round(baseline_stops, 4))
-print("Throughput:", baseline_throughput, "vehicles")
-print("Mean queue:", round(baseline_mean_queue, 4), "vehicles")
-print("Maximum queue:", baseline_max_queue, "vehicles")
+    metrics = [
+        ("Fitness (Overall Cost)", "fitness", False),
+        ("Mean Time Loss (s/veh)", "delay", False),
+        ("Mean Stops (stops/veh)", "stops", False),
+        ("Throughput (veh completed)", "throughput", True),
+        ("Mean Queue (veh)", "mean_queue", False),
+        ("Maximum Queue (veh)", "max_queue", False),
+        ("Emergency Time (s)", "emergency_time", False),
+    ]
 
+    for label, key, higher_is_better in metrics:
+        b_val = base[key]
+        o_val = old[key]
+        n_val = new[key]
 
-# ==========================================
-# PSO
-# ==========================================
+        if higher_is_better:
+            imp_base = ((n_val - b_val) / b_val * 100) if b_val != 0 else 0
+            imp_old = ((n_val - o_val) / o_val * 100) if o_val != 0 else 0
+        else:
+            imp_base = ((b_val - n_val) / b_val * 100) if b_val != 0 else 0
+            imp_old = ((o_val - n_val) / o_val * 100) if o_val != 0 else 0
 
-print("\n==============================")
-print("PSO CONTROLLER")
-print("==============================")
+        b_str = f"{b_val:.2f}" if isinstance(b_val, float) else f"{b_val}"
+        o_str = f"{o_val:.2f}" if isinstance(o_val, float) else f"{o_val}"
+        n_str = f"{n_val:.2f}" if isinstance(n_val, float) else f"{n_val}"
+        
+        sign_base = "+" if imp_base > 0 else ""
+        sign_old = "+" if imp_old > 0 else ""
+        
+        print(f"{label:<25} | {b_str:<12} | {o_str:<16} | {n_str:<16} | {sign_base}{imp_base:.2f}%{' ':>9} | {sign_old}{imp_old:.2f}%{' ':>9}")
 
-(
-    pso_fitness,
-    pso_delay,
-    pso_stops,
-    pso_throughput,
-    pso_mean_queue,
-    pso_max_queue,
-    pso_emergency_time
-) = evaluate_parameters(pso_parameters)
+    print(sep)
 
-
-print("Fitness:", round(pso_fitness, 4))
-print("Mean time loss:", round(pso_delay, 4))
-print("Mean stops:", round(pso_stops, 4))
-print("Throughput:", pso_throughput, "vehicles")
-print("Mean queue:", round(pso_mean_queue, 4), "vehicles")
-print("Maximum queue:", pso_max_queue, "vehicles")
-
-
-# ==========================================
-# COMPARISON
-# ==========================================
-
-print("\n==============================")
-print("COMPARISON")
-print("==============================")
-
-fitness_change = baseline_fitness - pso_fitness
-delay_change = baseline_delay - pso_delay
-stops_change = baseline_stops - pso_stops
-throughput_change = pso_throughput - baseline_throughput
-mean_queue_change = baseline_mean_queue - pso_mean_queue
-max_queue_change = baseline_max_queue - pso_max_queue
-
-
-print(
-    "Fitness difference:",
-    round(fitness_change, 4)
-)
-
-print(
-    "Time-loss difference:",
-    round(delay_change, 4)
-)
-
-print(
-    "Stops difference:",
-    round(stops_change, 4)
-)
-
-print(
-    "Throughput difference:",
-    throughput_change,
-    "vehicles"
-)
-
-print(
-    "Mean queue difference:",
-    round(mean_queue_change, 4),
-    "vehicles"
-)
-
-print(
-    "Maximum queue difference:",
-    max_queue_change,
-    "vehicles"
-)
-
-
-# ==========================================
-# FITNESS PERCENTAGE
-# ==========================================
-
-if baseline_fitness != 0:
-
-    fitness_percent = (
-        fitness_change / baseline_fitness
-    ) * 100
-
-    print(
-        "Fitness change (%):",
-        round(fitness_percent, 2),
-        "%"
-    )
+if __name__ == "__main__":
+    r_base = run_evaluation("Baseline Fuzzy", baseline_parameters)
+    r_old = run_evaluation("Old PSO (Synthetic)", old_pso_parameters)
+    r_new = run_evaluation("New PSO (Real VANET)", new_pso_parameters)
+    print_summary_table([r_base, r_old, r_new])

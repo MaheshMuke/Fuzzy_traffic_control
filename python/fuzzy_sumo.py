@@ -3,10 +3,13 @@ from fuzzy_controller import get_green_change
 
 print("Starting SUMO...", flush=True)
 
+import os
+_ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+
 sumo_cmd = [
     "sumo-gui",
-    "-n", r"C:\FuzzyPSO\sumo\intersection.net.xml",
-    "-r", r"C:\FuzzyPSO\sumo\traffic.rou.xml",
+    "-n", os.path.join(_ROOT, "sumo", "intersection.net.xml"),
+    "-r", os.path.join(_ROOT, "sumo", "traffic.rou.xml"),
     "--start"
 ]
 

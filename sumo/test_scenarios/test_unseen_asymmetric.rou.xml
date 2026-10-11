@@ -1,0 +1,30 @@
+<routes>
+    <vType id="car" accel="2.6" decel="4.5" length="5" maxSpeed="13.9"/>
+    <vType id="emergency" accel="3.0" decel="5.0" length="5" maxSpeed="15.0" color="1,0,0"/>
+
+    <route id="leftRight" edges="left0A0 A0A1 A1B1 B1right1"/>
+    <route id="rightLeft" edges="right1B1 B1A1 A1A0 A0left0"/>
+    <route id="bottomTop" edges="bottom0A0 A0B0 B0B1 B1top1"/>
+    <route id="topBottom" edges="top1B1 B1B0 B0A0 A0bottom0"/>
+
+    <flow id="test_flow_0" type="car" route="leftRight" begin="0" end="150" number="18"/>
+    <flow id="test_flow_1" type="car" route="rightLeft" begin="0" end="150" number="18"/>
+    <flow id="test_flow_2" type="car" route="bottomTop" begin="0" end="150" number="22"/>
+    <flow id="test_flow_3" type="car" route="topBottom" begin="0" end="150" number="20"/>
+
+    <flow id="test_flow_4" type="car" route="leftRight" begin="150" end="380" number="25"/>
+    <flow id="test_flow_5" type="car" route="rightLeft" begin="150" end="380" number="25"/>
+    <flow id="test_flow_6" type="car" route="bottomTop" begin="150" end="380" number="32"/>
+    <flow id="test_flow_7" type="car" route="topBottom" begin="150" end="380" number="28"/>
+    <vehicle id="emergency1" type="emergency" route="leftRight" depart="260"/>
+
+    <flow id="test_flow_8" type="car" route="leftRight" begin="380" end="550" number="16"/>
+    <flow id="test_flow_9" type="car" route="rightLeft" begin="380" end="550" number="16"/>
+    <flow id="test_flow_10" type="car" route="bottomTop" begin="380" end="550" number="18"/>
+    <flow id="test_flow_11" type="car" route="topBottom" begin="380" end="550" number="18"/>
+
+    <flow id="test_flow_12" type="car" route="leftRight" begin="550" end="700" number="10"/>
+    <flow id="test_flow_13" type="car" route="rightLeft" begin="550" end="700" number="10"/>
+    <flow id="test_flow_14" type="car" route="bottomTop" begin="550" end="700" number="12"/>
+    <flow id="test_flow_15" type="car" route="topBottom" begin="550" end="700" number="12"/>
+</routes>

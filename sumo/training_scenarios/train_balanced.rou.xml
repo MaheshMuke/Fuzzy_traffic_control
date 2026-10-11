@@ -1,0 +1,40 @@
+<routes>
+    <vType id="car" accel="2.6" decel="4.5" length="5" maxSpeed="13.9"/>
+    <vType id="emergency" accel="3.0" decel="5.0" length="5" maxSpeed="15.0" color="1,0,0"/>
+
+    <route id="leftRight" edges="left0A0 A0A1 A1B1 B1right1"/>
+    <route id="rightLeft" edges="right1B1 B1A1 A1A0 A0left0"/>
+    <route id="bottomTop" edges="bottom0A0 A0B0 B0B1 B1top1"/>
+    <route id="topBottom" edges="top1B1 B1B0 B0A0 A0bottom0"/>
+
+    <!-- 0 - 100s: Light (14 EW, 12 NS) -->
+    <flow id="b_0" type="car" route="leftRight" begin="0" end="100" number="14"/>
+    <flow id="b_1" type="car" route="rightLeft" begin="0" end="100" number="14"/>
+    <flow id="b_2" type="car" route="bottomTop" begin="0" end="100" number="12"/>
+    <flow id="b_3" type="car" route="topBottom" begin="0" end="100" number="12"/>
+
+    <!-- 100 - 250s: Moderate (16 EW, 14 NS) -->
+    <flow id="b_4" type="car" route="leftRight" begin="100" end="250" number="16"/>
+    <flow id="b_5" type="car" route="rightLeft" begin="100" end="250" number="16"/>
+    <flow id="b_6" type="car" route="bottomTop" begin="100" end="250" number="14"/>
+    <flow id="b_7" type="car" route="topBottom" begin="100" end="250" number="14"/>
+
+    <!-- 250 - 400s: Heavy Peak (8 EW, 7 NS + Emergency EW) -->
+    <flow id="b_8" type="car" route="leftRight" begin="250" end="400" number="8"/>
+    <flow id="b_9" type="car" route="rightLeft" begin="250" end="400" number="8"/>
+    <flow id="b_10" type="car" route="bottomTop" begin="250" end="400" number="7"/>
+    <flow id="b_11" type="car" route="topBottom" begin="250" end="400" number="7"/>
+    <vehicle id="emergency1" type="emergency" route="leftRight" depart="325"/>
+
+    <!-- 400 - 520s: Moderate (13 EW, 11 NS) -->
+    <flow id="b_12" type="car" route="leftRight" begin="400" end="520" number="13"/>
+    <flow id="b_13" type="car" route="rightLeft" begin="400" end="520" number="13"/>
+    <flow id="b_14" type="car" route="bottomTop" begin="400" end="520" number="11"/>
+    <flow id="b_15" type="car" route="topBottom" begin="400" end="520" number="11"/>
+
+    <!-- 520 - 600s: Light (11 EW, 9 NS) -->
+    <flow id="b_16" type="car" route="leftRight" begin="520" end="600" number="11"/>
+    <flow id="b_17" type="car" route="rightLeft" begin="520" end="600" number="11"/>
+    <flow id="b_18" type="car" route="bottomTop" begin="520" end="600" number="9"/>
+    <flow id="b_19" type="car" route="topBottom" begin="520" end="600" number="9"/>
+</routes>

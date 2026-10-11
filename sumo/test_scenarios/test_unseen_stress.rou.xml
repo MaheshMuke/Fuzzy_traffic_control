@@ -1,0 +1,34 @@
+<routes>
+    <vType id="car" accel="2.6" decel="4.5" length="5" maxSpeed="13.9"/>
+    <vType id="emergency" accel="3.0" decel="5.0" length="5" maxSpeed="15.0" color="1,0,0"/>
+
+    <route id="leftRight" edges="left0A0 A0A1 A1B1 B1right1"/>
+    <route id="rightLeft" edges="right1B1 B1A1 A1A0 A0left0"/>
+    <route id="bottomTop" edges="bottom0A0 A0B0 B0B1 B1top1"/>
+    <route id="topBottom" edges="top1B1 B1B0 B0A0 A0bottom0"/>
+
+    <!-- Window 1: 0 - 200s (Heavy East-West rush) -->
+    <flow id="st_0" type="car" route="leftRight" begin="0" end="200" number="30"/>
+    <flow id="st_1" type="car" route="rightLeft" begin="0" end="200" number="30"/>
+    <flow id="st_2" type="car" route="bottomTop" begin="0" end="200" number="12"/>
+    <flow id="st_3" type="car" route="topBottom" begin="0" end="200" number="12"/>
+
+    <!-- Window 2: 200 - 450s (Sudden Flip: Heavy North-South rush + cross Emergency) -->
+    <flow id="st_4" type="car" route="leftRight" begin="200" end="450" number="15"/>
+    <flow id="st_5" type="car" route="rightLeft" begin="200" end="450" number="15"/>
+    <flow id="st_6" type="car" route="bottomTop" begin="200" end="450" number="42"/>
+    <flow id="st_7" type="car" route="topBottom" begin="200" end="450" number="40"/>
+    <vehicle id="emergency1" type="emergency" route="bottomTop" depart="340"/>
+
+    <!-- Window 3: 450 - 620s (Gridlock release: High balanced cross traffic) -->
+    <flow id="st_8" type="car" route="leftRight" begin="450" end="620" number="24"/>
+    <flow id="st_9" type="car" route="rightLeft" begin="450" end="620" number="24"/>
+    <flow id="st_10" type="car" route="bottomTop" begin="450" end="620" number="24"/>
+    <flow id="st_11" type="car" route="topBottom" begin="450" end="620" number="24"/>
+
+    <!-- Window 4: 620 - 750s (Tail free-flow) -->
+    <flow id="st_12" type="car" route="leftRight" begin="620" end="750" number="10"/>
+    <flow id="st_13" type="car" route="rightLeft" begin="620" end="750" number="10"/>
+    <flow id="st_14" type="car" route="bottomTop" begin="620" end="750" number="10"/>
+    <flow id="st_15" type="car" route="topBottom" begin="620" end="750" number="10"/>
+</routes>
